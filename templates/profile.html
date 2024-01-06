@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Profile- {{user_object.username}}</title>
+        <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/profile.css' %}">
+        <script src="https://kit.fontawesome.com/ae2987c145.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!----------------------------------------Navigation------------------------------------------->
+        <nav>
+            <div class="nav-left">
+                <img src="{% static 'images/logo.png' %}" class="logo">
+                <form action="/search" method="POST">
+                    {% csrf_token %}
+                    <div class="search-box">
+                    {% comment %} <img src="{% static 'images/search.png' %}"> {% endcomment %}
+                    <input type="text" name="username" placeholder="Search">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form> 
+            </div>
+            <div class="nav-right">
+                <a href="/"><i class="fa-sharp fa-solid fa-house"></i></a>
+                <a href="#"><i class="fa-solid fa-bell"></i></a>
+                <a href="#"><i class="fa-solid fa-message"></i></a>
+                <img id="nav-img" width="35" height="35" src="{{Cuser_profile.profileimg.url}}">
+                <a id="logout" href="/logout">Logout</a>
+            </div>
+        </nav>
+        <!----------------------------------------Profile Page------------------------------------------->
+        <div class="profile-container">
+            <img src="{% static 'images/cover.png' %}" class="cover-img">
+            <div class="profile-details">
+                <div class="pd-left">
+                    <div class="pd-row">
+                        <img src="{{user_profile.profileimg.url}}" class="pd-image">
+                        <div>
+                            <h3>{{user_object.username}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="pd-right">
+                    
+                    <div class="pff">
+                        <div class="post">
+                            {% if user_post_length == 0 %}
+                                <p>No Post</p>
+                                {% elif user_post_length == 1 %}
+                                <p>1 Post</p>
+                                {% else %}
+                                <p>{{user_post_length}} Posts</p>
+                                {% endif %}
+                        </div>
+                        <div class="followers">
+                            {% if user_followers == 1 or user_followers == 0 %}
+                            <p>{{user_followers}} Follower</p>
+                            {% else %}
+                            <p>{{user_followers}} Followers</p>
+                            {% endif %}
+                        </div>
+                        <div class="followings">
+                            {% if user_followings == 1 or user_followings == 0 %}
+                            <p>{{user_followings}} Following</p>
+                            {% else %}
+                            <p>{{user_followings}} Followings</p>
+                            {% endif %}
+                        </div>
+                        <form action="/follow" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{user.username}}" name="follower"/>
+                            <input type="hidden" value="{{user_object.username}}" name="user"/>
+                            {% if user_object.username == user.username %}
+                            <button><a href="/settings">Account Settings</a></button>
+                            {% else %}
+                            <button type="submit">{{button_text}}</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile.info" style="display:flex;align-self: flex-start;justify-content: space-between;">
+                <div class="info-col" style="flex-basis: 33%;">
+                    <div class="profile-intro">
+                        <h3>Bio</h3>
+                        <p>{{user_profile.bio}}</p>
+                    </div>
+                </div>
+                <div class="post-col" style="flex-basis: 65%;">
+                    {% for post in user_post reversed %}
+                    <div id={{post.id}} class="display-post-card">
+
+                        <div class="user-profile">
+                            <img width="35" height="35" src="{{user_profile.profileimg.url}}">
+                            <div>
+                                <strong>{{user_object.username}}</strong><br/>
+                                <small>{{post.created_at}}</small>
+                            </div>
+                        </div>
+
+                        <div class="caption">
+                            <p>{{post.caption}}</p>
+                        </div>
+
+                        <img width="450" src="{{post.image.url}}">
+                        <div class="like-box">
+                            <a href="/like-post?post_id={{post.id}}&page={{user_object.username}}"><i class="fa-regular fa-thumbs-up"></i></a>
+                            {% if post.no_of_likes == 0 %}
+                            <p>No Likes</p>
+                            {% elif post.no_of_likes == 1 %}
+                            <p>Liked  by 1 person</p>
+                            {% else %}
+                            <p>Liked by {{post.no_of_likes}}persons</p>
+                            {% endif %}
+                        </div>
+                        <a href="{{post.image.url}}" download><i class="fa-solid fa-download"></i></a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </body>
+</html>

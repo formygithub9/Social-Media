@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'CSS/search.css' %}">
+    </head>
+    <body>
+        <p id="heading">People</p>
+        {% for users in username_profile_list %}
+        <div class="container">
+            <a href="/profile/{{users.user}}"><img src="{{users.profileimg.url}}"></a>
+            <div class="user-info">
+                <a href="/profile/{{users.user}}"><b>{{users.user}}</b></a>
+                <p>{{users.location}}</p>
+                <p>{{users.bio}}</p>
+            </div>
+            
+        </div> 
+        {% endfor %}
+    </body>
+</html>

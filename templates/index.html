@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Social Book</title>
+        <link rel="stylesheet" href="{% static 'CSS/index-style.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
+        <script src="https://kit.fontawesome.com/ae2987c145.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!----------------------------------------Navigation------------------------------------------->
+        <nav>
+            <div class="nav-left">
+                <img src="{% static 'images/logo.png' %}" class="logo">
+                <form action="/search" method="POST">
+                    {% csrf_token %}
+                    <div class="search-box">
+                    {% comment %} <img src="{% static 'images/search.png' %}"> {% endcomment %}
+                    <input type="text" name="username" placeholder="Search">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form> 
+            </div>
+            <div class="nav-right">
+                <a id="profile" href="profile/{{user.username}}">Profile</a>
+                <a href="#"><i class="fa-solid fa-bell"></i></a>
+                <a href="#"><i class="fa-solid fa-message"></i></a>
+                <img id="nav-img" width="35" height="35" src="{{user_profile.profileimg.url}}">
+            </div>
+        </nav>
+        <!----------------------------------------Index Page------------------------------------------->
+        <div class="container">
+            <!------------------------left-sidebar----------------------------->
+            <div class="left-sidebar"></div>
+            <!------------------------main content----------------------------->
+            <div class="main-content">
+                <div class="write-post-container">
+
+                    <div class="user-profile">
+                        <img width="35" height="35" src="{{user_profile.profileimg.url}}">
+                        <strong>{{user.username}}</strong>
+                    </div><br/>
+
+                    <div class="post-input-container">
+                        <form action="/upload" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <textarea name="caption" rows="3" placeholder="what's in your mind {{user.username}}?"></textarea>
+                            <div>
+                                <label>Upload Image</label>
+                                <input name="image_upload" placeholder="image" type="file"/>
+                            </div>
+                            <button type="submit">Post</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% for post in posts reversed %}
+                <div id={{post.id}} class="display-post-card">
+
+                    <div class="user-profile">
+                        <img width="35" height="35" src="{{post.icon}}">
+                        <div>
+                            <a href="/profile/{{post.user}}"><strong>{{post.user}}</strong></a><br/>
+                            <small>{{post.created_at}}</small>
+                        </div>
+                    </div>
+
+                    <div class="caption">
+                        <p>{{post.caption}}</p>
+                    </div>
+
+                    <img width="450" src="{{post.image.url}}">
+                    <div class="like-box">
+                        <a href="/like-post?post_id={{post.id}}"><i class="fa-regular fa-thumbs-up"></i></a>
+                        {% if post.no_of_likes == 0 %}
+                        <p>No Likes</p>
+                        {% elif post.no_of_likes == 1 %}
+                        <p>Liked  by 1 person</p>
+                        {% else %}
+                        <p>Liked by {{post.no_of_likes}}persons</p>
+                        {% endif %}
+                    </div>
+                    <a href="{{post.image.url}}" download><i class="fa-solid fa-download"></i></a>
+                </div>
+                {% endfor %}
+                
+
+            </div>
+            <!------------------------right-sidebar---------------------------->
+            <div class="right-sidebar"></div>
+        </div>
+    </body>
+</html>

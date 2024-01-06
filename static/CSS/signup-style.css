@@ -1,0 +1,60 @@
+.nav-right button{
+    width: 70px;
+    height:35px;
+    font-size: large;
+    font-weight:bold;
+    color:#1876f2;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.nav-right button:hover{
+    cursor: pointer;
+}
+.form-heading{
+    text-align: center;
+    margin: 3% auto 1% auto;
+    font-size: 200%;
+    font-weight: bold;
+}
+.text{
+    margin: 1% auto 5% 5%;
+    color:grey;
+}
+form{
+    width:30%;
+    margin:5% auto;
+    background-color: white;
+    border-radius: 5px;
+    padding:3% 1%;
+    box-shadow: -2px 2px 15px #000;
+}
+form input{
+    width:90%;
+    margin:1% 5%;
+    padding:3%;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 110%;
+    font-family: sans-serif;
+    border:0.5px solid grey;
+}
+form button{
+    background-color: #1876f2;
+    width:90%;
+    padding:3%;
+    margin:2% 5% 6% 5%;
+    border-radius: 5px;
+    border: none;
+    color:white;
+    font-family: sans-serif;
+    font-size: 120%;
+    font-weight: bold;
+}
+form button:hover{
+    cursor:pointer;
+}
+form h5{
+    color:red;
+}
+

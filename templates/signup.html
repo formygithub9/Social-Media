@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Sign-Up To Social Book</title>
+        <link rel="stylesheet" href="{% static 'CSS/signup-style.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
+    </head>
+    <body>
+        <nav>
+            <div class="nav-left">
+                <img src="{% static 'images/logo.png' %}" class="logo">
+            </div>
+            <div class="nav-right">
+                <a href="/signin"><button>Login</button></a>
+            </div>
+        </nav>
+    
+        <div class="signup-container">
+            <form action="" method="POST">
+                <p class="form-heading">Create a new acount</p><hr>
+                <p class="text">It's quick and easy.</p>
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+                {% csrf_token %}
+                <input name="username" placeholder="Username" type="text"/><br/>
+                <input name="email" placeholder="E-mail" type="email"/><br/>
+                <input name="pass1" placeholder="Password" type="password"/><br/>
+                <input name="pass2" placeholder="Confirm-Password" type="password"/><br/>
+                <button type="submit">Sign-up</button>
+            </form>
+        </div>
+    </body>
+</html>

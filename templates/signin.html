@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Login To Social Book</title>
+        <link rel="stylesheet" href="{% static 'CSS/signin.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
+    </head>
+    <body>
+        <nav>
+            <div class="nav-left">
+                <img src="{% static 'images/logo.png' %}" class="logo">
+            </div>
+            <div class="nav-right">
+
+            </div>
+        </nav>
+        
+        <div class="signup-container">
+            <form action="signin" method="POST">
+                <p class="form-heading">Login to your acount</p>
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                 {% endfor %}
+                {% csrf_token %}
+                <input name="username" placeholder="Username" type="text"/><br/>
+                <input name="password" placeholder="Password" type="password"/><br/>
+                <button type="submit">Log in</button><hr>
+            </form>
+            <a href="/signup"><button>Create New Account</button></a>
+        </div>
+    </body>
+</html>

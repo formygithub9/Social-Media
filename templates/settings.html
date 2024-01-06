@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Settings</title>
+        <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/settings.css' %}">
+    </head>
+    <body>
+        <nav>
+            <div class="nav-left">
+                <img src="{% static 'images/logo.png' %}" class="logo">
+            </div>
+            <div class="nav-right"></div>
+        </nav>
+        <p class="settings-heading"><a href="/">Home</a>/Account Settings for <b>{{user.username}}</b></p>
+        <br/>
+        <hr>
+        <div class="settings-container">
+            <form action="/settings" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="image-container">
+                    <label>Profile Image</label>
+                    <img width="100" height="100" src="{{user_profile.profileimg.url}}">
+                    <input name="profile-pic" placeholder="image" value="" type="file"/>
+                </div>
+                <div class="bio">
+                    <label>Bio</label>
+                    <textarea name="bio" placeholder="Bio" >{{user_profile.bio}}</textarea>
+                </div>
+
+                <div class="location">
+                    <label>Location</label>
+                    <input name="location" placeholder="Location" value="{{user_profile.location}}" type="text"/>
+                </div>
+                
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </body>
+</html>
